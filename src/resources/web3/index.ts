@@ -10,6 +10,15 @@ interface CryptoZombiesContract extends Contract {
   }
 }
 
+export type Zombie = {
+  name: string
+  dna: string
+  level: number
+  winCount: number
+  lossCount: number
+  readyTime: string
+}
+
 let cryptoZombiesContract: CryptoZombiesContract
 
 export const createWeb3Instance = (): Web3 => {
@@ -31,7 +40,7 @@ export const createContract = (web3Instance: Web3): CryptoZombiesContract => {
   return myContract
 }
 
-export const getZombieDetails = (id: string) => {
+export const getZombieDetails = (id: string): Promise<Zombie> => {
   return cryptoZombiesContract.methods.zombies(id).call()
 }
 
@@ -39,7 +48,7 @@ export const zombieToOwner = (id: string) => {
   return cryptoZombiesContract.methods.zombieToOwner(id).call()
 }
 
-export const getZombiesByOwner = (owner: string) => {
+export const getZombiesByOwner = (owner: string): Promise<string[]> => {
   return cryptoZombiesContract.methods.getZombiesByOwner(owner).call()
 }
 
