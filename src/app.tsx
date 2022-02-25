@@ -73,6 +73,16 @@ export function App () {
     zombiesByOwner()
   }, [userAccount])
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (transactionStatus !== null) {
+        setTransactionStatus(null)
+      }
+    }, 5000)
+
+    return () => clearTimeout(timer)
+  }, [transactionStatus])
+
   type MyFormElement = {
     elements:
       { zombieName: HTMLInputElement
@@ -93,7 +103,10 @@ export function App () {
       const result = await createRandomZombie({ name, userAccount })(web3js.current)
       console.log('receipt:', result)
     } catch (error) {
-      console.log('error:', error)
+      if (error instanceof Error) {
+        console.log('error:', error.stack)
+        setTransactionStatus(error.message)
+      }
     }
     console.log('zombie name:', name)
   }
