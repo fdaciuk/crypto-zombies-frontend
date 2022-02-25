@@ -67,7 +67,7 @@ export const getZombiesByOwner = (owner: string) => (contract: CryptoZombiesCont
   return contract.methods.getZombiesByOwner(owner).call()
 }
 
-export const createRandomZombie = (args: CreateRandomZombieInput) => (contract: CryptoZombiesContract): Promise<TransactionReceipt | Error> => {
+export const createRandomZombie = (args: CreateRandomZombieInput) => (contract: CryptoZombiesContract): Promise<TransactionReceipt> => {
   return new Promise((resolve, reject) => {
     const { name, userAccount } = args
     return contract.methods.createRandomZombie(name)
@@ -79,7 +79,7 @@ export const createRandomZombie = (args: CreateRandomZombieInput) => (contract: 
   })
 }
 
-export const feedOnKitty = (args: FeedOnKittyInput) => (contract: CryptoZombiesContract): Promise<TransactionReceipt | Error> => {
+export const feedOnKitty = (args: FeedOnKittyInput) => (contract: CryptoZombiesContract): Promise<TransactionReceipt> => {
   return new Promise((resolve, reject) => {
     const { zombieId, kittyId, userAccount } = args
     return contract.methods.feedOnKitty(zombieId, kittyId)
