@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
-import { App } from '@/app'
+import { Root } from '@/root'
 
 ReactDOM.render(
   <StrictMode>
-    <App />
+    <Root />
   </StrictMode>,
   document.querySelector('[data-js="root"]'),
 )
