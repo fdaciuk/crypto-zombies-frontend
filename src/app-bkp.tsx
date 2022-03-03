@@ -6,7 +6,6 @@ import {
   getZombiesByOwner,
   getZombieDetails,
   createRandomZombie,
-  feedOnKitty,
   CryptoZombiesContract,
   Zombie,
 } from '@/resources/web3'

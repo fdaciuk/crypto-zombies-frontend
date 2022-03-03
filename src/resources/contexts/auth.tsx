@@ -1,7 +1,13 @@
-import { createContext, useContext, ReactNode, useState } from 'react'
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+} from 'react'
 
 type AuthContextType = {
   address: string
+  isLoggedIn: boolean
   setAddress: (address: string) => void
 }
 
@@ -13,13 +19,21 @@ const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [address, setAddress] = useState('')
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const setInternalAddress = (address: string) => {
     setAddress(address)
+    setIsLoggedIn(true)
   }
 
   return (
-    <AuthContext.Provider value={{ address, setAddress: setInternalAddress }}>
+    <AuthContext.Provider
+      value={{
+        address,
+        isLoggedIn,
+        setAddress: setInternalAddress,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

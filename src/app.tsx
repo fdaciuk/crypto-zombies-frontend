@@ -1,13 +1,32 @@
-import { lazy, Suspense } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { lazy, useEffect, Suspense } from 'react'
+import {
+  matchPath,
+  useLocation,
+  useNavigate,
+  Routes,
+  Route,
+  Link,
+} from 'react-router-dom'
 import { useAuth } from '@/resources'
 
 const Login = lazy(() => import('@/pages/login'))
 const Main = lazy(() => import('@/pages/main'))
 
 export function App () {
-  const { address } = useAuth()
-  console.warn('TODO: validar address antes de redirecionar para dentro do app', address)
+  const { isLoggedIn } = useAuth()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const isInLoginRoute = !!matchPath('/login', pathname)
+    if (isLoggedIn && isInLoginRoute) {
+      navigate('/')
+    }
+
+    if (isLoggedIn === false && isInLoginRoute === false) {
+      navigate('/login')
+    }
+  }, [isLoggedIn, pathname, navigate])
 
   return (
     <>
