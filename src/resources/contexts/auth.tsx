@@ -4,6 +4,7 @@ import {
   ReactNode,
   useState,
 } from 'react'
+import { isAddress } from '@/resources'
 
 type AuthContextType = {
   address: string
@@ -22,6 +23,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const setInternalAddress = (address: string) => {
+    if (!isAddress(address)) {
+      throw new Error('This contract address is invalid')
+    }
+
     setAddress(address)
     setIsLoggedIn(true)
   }

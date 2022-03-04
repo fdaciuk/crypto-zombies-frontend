@@ -51,7 +51,6 @@ export const createContract = (web3Instance: Web3): CryptoZombiesContract => {
     JSON.parse(cryptoZombiesABI),
     CRYPTO_ZOMBIES_ADDRESS,
   )
-  console.log('myContract:', myContract)
   return myContract
 }
 
@@ -65,6 +64,10 @@ export const zombieToOwner = (id: string) => (contract: CryptoZombiesContract) =
 
 export const getZombiesByOwner = (owner: string) => (contract: CryptoZombiesContract): Promise<string[]> => {
   return contract.methods.getZombiesByOwner(owner).call()
+}
+
+export const isAddress = (address: string) => {
+  return Web3.utils.isAddress(address)
 }
 
 export const createRandomZombie = (args: CreateRandomZombieInput) => (contract: CryptoZombiesContract): Promise<TransactionReceipt> => {

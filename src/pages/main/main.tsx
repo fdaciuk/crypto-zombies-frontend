@@ -1,5 +1,14 @@
-import { lazy, Suspense } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { lazy, useEffect, useState, Suspense } from 'react'
+import { useNavigate, Routes, Route, Link } from 'react-router-dom'
+import * as TE from 'fp-ts/TaskEither'
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+import {
+  useAuth,
+  getZombiesByOwner,
+  useContract,
+} from '@/resources'
 
 const CreateZombie = lazy(() => import('@/pages/create-zombie'))
 const Army = lazy(() => import('@/pages/army'))
@@ -9,6 +18,42 @@ const Battle = lazy(() => import('@/pages/battle'))
 const Fight = lazy(() => import('@/pages/fight'))
 
 export function Main () {
+  const { address } = useAuth()
+  const contract = useContract()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function zombiesByOnwner () {
+      if (contract === null) {
+        return
+      }
+
+      const noZombies: string[] = []
+
+      // TODO: Antes de fazer a verificação, exibir um loading
+      const result = await pipe(
+        TE.tryCatch(
+          () => getZombiesByOwner(address)(contract),
+          E.toError,
+        ),
+        TE.fold(
+          () => async () => noZombies,
+          (result) => async () => result,
+        ),
+      )()
+
+      navigate(result.length > 0 ? '/army' : '/')
+      setLoading(false)
+    }
+
+    zombiesByOnwner()
+  }, [address, contract, navigate])
+
+  if (loading) {
+    return null
+  }
+
   return (
     <>
       <ul>

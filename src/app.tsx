@@ -5,7 +5,6 @@ import {
   useNavigate,
   Routes,
   Route,
-  Link,
 } from 'react-router-dom'
 import { useAuth } from '@/resources'
 
@@ -30,11 +29,6 @@ export function App () {
 
   return (
     <>
-      <ul>
-        <li><Link to='/login'>Login</Link></li>
-        <li><Link to='/'>Main</Link></li>
-      </ul>
-
       <Suspense fallback=''>
         <Routes>
           <Route path='/login' element={<Login />} />
