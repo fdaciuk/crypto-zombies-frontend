@@ -1,13 +1,10 @@
-import { BrowserRouter } from 'react-router-dom'
 import { App } from '@/app'
-import { AuthProvider } from '@/resources'
+import { Providers } from './providers'
 
 export function Root () {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
+    <Providers>
+      <App />
+    </Providers>
   )
 }
