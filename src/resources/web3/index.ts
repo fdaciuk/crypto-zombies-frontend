@@ -24,13 +24,17 @@ interface CryptoZombiesContract extends Contract {
   }
 }
 
-export type Zombie = {
+type Zombie = {
   name: string
   dna: string
   level: number
   winCount: number
   lossCount: number
   readyTime: string
+}
+
+export type ZombieWithId = Zombie & {
+  id: string
 }
 
 const CRYPTO_ZOMBIES_ADDRESS = '0xD0E2e469da36eB6764A0829fE7994a8A7d15c570'

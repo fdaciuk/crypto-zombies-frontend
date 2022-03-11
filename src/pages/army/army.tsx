@@ -1,19 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import * as TE from 'fp-ts/TaskEither'
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
+import { Zombie } from '@/ui'
 
 import {
   useAuth,
   getZombiesByOwner,
   useContract,
-  // getZombieDetails,
+  getZombieDetails,
   // createRandomZombie,
-  Zombie,
+  ZombieWithId,
+  CryptoZombiesContract,
 } from '@/resources'
 
-type ZombieWithId = Zombie & {
-  id: string
+type GetZombiesByIdsInput = {
+  ids: string[]
+  contract: CryptoZombiesContract
 }
 
 export function Army () {
@@ -21,13 +24,34 @@ export function Army () {
   const contract = useContract()
   const [zombies, setZombies] = useState<ZombieWithId[]>([])
 
+  const getZombiesByIds = useCallback(async ({ ids, contract }: GetZombiesByIdsInput) => {
+    const zombies = ids.map(async zombieId => {
+      const zombieDetail = await getZombieDetails(zombieId)(contract)
+      return {
+        id: zombieId,
+        ...zombieDetail,
+      }
+    })
+
+    const result = await Promise.allSettled(zombies)
+    const newZombies = result.reduce<ZombieWithId[]>((acc, r) => {
+      if (r.status === 'rejected') {
+        return acc
+      }
+
+      return acc.concat(r.value)
+    }, [])
+
+    setZombies(newZombies)
+  }, [])
+
   useEffect(() => {
-    async function zombiesByOnwner () {
+    async function getZombiesIds () {
       if (contract === null) {
         return
       }
 
-      const result = await pipe(
+      await pipe(
         TE.tryCatch(
           () => pipe(
             contract,
@@ -35,23 +59,22 @@ export function Army () {
           ),
           E.toError,
         ),
+        TE.map(ids => getZombiesByIds({ ids, contract })),
       )()
-
-      console.log('result', result)
     }
 
-    zombiesByOnwner()
-  }, [address, contract])
+    getZombiesIds()
+  }, [address, contract, getZombiesByIds])
 
   return (
     <>
       <h1>Army</h1>
 
-      {zombies.map(zombie => (
-        <ul key={zombie.id}>
-          <li>{zombie.name}</li>
-        </ul>
-      ))}
+      <ul>
+        {zombies.map(data => (
+          <Zombie key={data.id} data={data} />
+        ))}
+      </ul>
     </>
   )
 }

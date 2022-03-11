@@ -31,7 +31,7 @@ export function Login () {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <label htmlFor='login'>Endereço da carteira:</label><br />
-        <input type='text' name='login' id='login' />
+        <input type='text' name='login' id='login' defaultValue='0x9f61faf7774A04Cb0339A6951F6c5c2D8bb0d595' />
         <button type='submit'>Entrar</button>
       </form>
     </>
