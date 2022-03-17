@@ -5,12 +5,17 @@ type ZombieProps = {
   data: ZombieWithId
 }
 
+const HEAD_VARIATIONS = 7
+const EYES_VARIATIONS = 11
+const SHIRT_VARIATIONS = 6
+
 export const Zombie = ({ data }: ZombieProps) => {
   const dna = data.dna.padStart(16, '0')
   const catMode = dna.endsWith('99')
-  const head = Number(dna.substring(0, 2)) % 7 + 1
-  const eye = Number(dna.substring(2, 4)) % 11 + 1
-  const shirt = Number(dna.substring(4, 6)) % 6 + 1
+
+  const head = Number(dna.substring(0, 2)) % HEAD_VARIATIONS + 1
+  const eye = Number(dna.substring(2, 4)) % EYES_VARIATIONS + 1
+  const shirt = Number(dna.substring(4, 6)) % SHIRT_VARIATIONS + 1
   const skinColor = getHueColor(dna.substring(6, 8))
   const eyeColor = getHueColor(dna.substring(8, 10))
   const clothesColor = getHueColor(dna.substring(10, 12))
