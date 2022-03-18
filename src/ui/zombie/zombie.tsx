@@ -26,7 +26,8 @@ export const Zombie = ({ data }: ZombieProps) => {
 
   return (
     <>
-      <h2>Zombie details</h2>
+      <h2>Zombie details ({data.name})</h2>
+      <h3>Zombie DNA: {data.dna}</h3>
 
       <S.ZombieContainer>
         {!catMode && (

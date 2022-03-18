@@ -1,7 +1,13 @@
 import { ReactNode } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from '@/resources'
-// import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+
+const config = {
+  initialColorMode: 'dark',
+}
+
+const theme = extendTheme({ config })
 
 type Props = {
   children: ReactNode | ReactNode[]
@@ -14,10 +20,13 @@ type Provider = {
 
 const providers: Provider[] = [
   { provider: BrowserRouter },
-  // {
-  //   provider: ChakraProvider,
-  //   props: { resetCSS: true },
-  // },
+  {
+    provider: ChakraProvider,
+    props: {
+      resetCSS: true,
+      theme,
+    },
+  },
   { provider: AuthProvider },
 ]
 
