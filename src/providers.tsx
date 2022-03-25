@@ -7,7 +7,15 @@ const config = {
   initialColorMode: 'dark',
 }
 
-const theme = extendTheme({ config })
+const styles = {
+  global: {
+    '.root': {
+      minHeight: '100vh',
+    },
+  },
+}
+
+const theme = extendTheme({ config, styles })
 
 type Props = {
   children: ReactNode | ReactNode[]
