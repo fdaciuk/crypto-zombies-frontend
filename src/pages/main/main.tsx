@@ -56,7 +56,7 @@ export function Main () {
 
   return (
     <>
-      <ul>
+      <ul style={{ position: 'absolute' }}>
         <li><Link to='/'>Create Zombie</Link></li>
         <li><Link to='/army'>My Army</Link></li>
         <li><Link to='/army/123'>Zombie 123 details</Link></li>

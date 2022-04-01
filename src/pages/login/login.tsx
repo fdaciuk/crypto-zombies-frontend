@@ -1,19 +1,17 @@
 import { useEffect, useState, FormEvent, ReactNode } from 'react'
 import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
   Button,
   Center,
-  CloseButton,
   Flex,
   FormLabel,
+  Heading,
   Input,
   theme,
 } from '@chakra-ui/react'
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { useAuth } from '@/resources'
+import { ErrorMessage } from '@/ui'
 
 type OnSubmitEvent = FormEvent<HTMLFormElement> & {
   currentTarget: {
@@ -55,7 +53,11 @@ export function Login () {
   return (
     <Center mx='auto' height='100vh'>
       <Flex direction='column'>
-        {error && <ErrorMessage message={error} onClose={handleClose} mb='2' />}
+        <Center mb='8'>
+          <Heading>Login</Heading>
+        </Center>
+
+        {error && <ErrorMessage message={error} onClose={handleClose} />}
 
         <Form onSubmit={handleSubmit}>
           <FormLabel htmlFor='login'>Wallet Address:</FormLabel>
@@ -85,31 +87,16 @@ const Form = ({ children, onSubmit }: FormProps) => {
 }
 
 const InputWallet = () => {
+  /* defaultValue='0x9f61faf7774A04Cb0339A6951F6c5c2D8bb0d595' */
   return (
     <Input
       type='text'
       name='login'
       id='login'
-      defaultValue='0x9f61faf7774A04Cb0339A6951F6c5c2D8bb0d595'
+      defaultValue='0x85fFe94627CbD18C4905461c5F11847Df68094BC'
       mr='2'
       size='lg'
       width='lg'
     />
-  )
-}
-
-type ErrorProps = {
-  message: string
-  onClose: () => void
-  mb: string
-}
-
-const ErrorMessage = ({ message, onClose, mb }: ErrorProps) => {
-  return (
-    <Alert status='error' variant='left-accent' mb={mb}>
-      <AlertIcon />
-      <AlertTitle>{message}</AlertTitle>
-      <CloseButton position='absolute' right='8px' top='8px' onClick={onClose} />
-    </Alert>
   )
 }
