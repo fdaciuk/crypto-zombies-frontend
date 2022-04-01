@@ -11,7 +11,7 @@ import { useAuth } from '@/resources'
 const Login = lazy(() => import('@/pages/login'))
 const Main = lazy(() => import('@/pages/main'))
 
-export function App () {
+export const App = () => {
   const { isLoggedIn } = useAuth()
   const { pathname } = useLocation()
   const navigate = useNavigate()
