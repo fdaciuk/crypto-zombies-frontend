@@ -56,7 +56,7 @@ export function Main () {
 
   return (
     <>
-      <ul style={{ position: 'absolute' }}>
+      <ul style={{ position: 'absolute', backgroundColor: '#222', padding: '20px', right: 0 }}>
         <li><Link to='/'>Create Zombie</Link></li>
         <li><Link to='/army'>My Army</Link></li>
         <li><Link to='/army/123'>Zombie 123 details</Link></li>

@@ -1,4 +1,4 @@
-import { useEffect, useState, FormEvent, ReactNode } from 'react'
+import { useCallback, useState, FormEvent, ReactNode } from 'react'
 import {
   Button,
   Center,
@@ -11,7 +11,7 @@ import {
 import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 import { useAuth } from '@/resources'
-import { ErrorMessage } from '@/ui'
+import { ErrorMessage } from '@/shared'
 
 type OnSubmitEvent = FormEvent<HTMLFormElement> & {
   currentTarget: {
@@ -21,7 +21,7 @@ type OnSubmitEvent = FormEvent<HTMLFormElement> & {
 
 export function Login () {
   const { setAddress } = useAuth()
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState('')
 
   const handleSubmit = (e: OnSubmitEvent) => {
     e.preventDefault()
@@ -35,18 +35,9 @@ export function Login () {
     )
   }
 
-  useEffect(() => {
-    const FIVE_SECONDS = 5_000
-    const timer = setTimeout(() => {
-      setError(null)
-    }, FIVE_SECONDS)
-
-    return () => clearTimeout(timer)
-  }, [error])
-
-  const handleClose = () => {
-    setError(null)
-  }
+  const handleClose = useCallback(() => {
+    setError('')
+  }, [])
 
   console.log('chakra ui theme:', theme)
 
@@ -57,7 +48,7 @@ export function Login () {
           <Heading>Login</Heading>
         </Center>
 
-        {error && <ErrorMessage message={error} onClose={handleClose} />}
+        <ErrorMessage show={!!error} message={error} onClose={handleClose} />
 
         <Form onSubmit={handleSubmit}>
           <FormLabel htmlFor='login'>Wallet Address:</FormLabel>
@@ -93,7 +84,7 @@ const InputWallet = () => {
       type='text'
       name='login'
       id='login'
-      defaultValue='0x85fFe94627CbD18C4905461c5F11847Df68094BC'
+      defaultValue='0x741441BEa66805e0123055977Dd6808ca55472dd'
       mr='2'
       size='lg'
       width='lg'

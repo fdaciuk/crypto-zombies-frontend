@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Button,
   Center,
@@ -8,7 +9,7 @@ import {
   Input,
 } from '@chakra-ui/react'
 import { createRandomZombie, useAuth, useContract } from '@/resources'
-import { ErrorMessage } from '@/ui'
+import { ErrorMessage } from '@/shared'
 
 type FormEventType = FormEvent<HTMLFormElement> & {
   currentTarget: {
@@ -19,7 +20,8 @@ type FormEventType = FormEvent<HTMLFormElement> & {
 export function CreateZombie () {
   const { address } = useAuth()
   const contract = useContract()
-  const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate()
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: FormEventType) => {
     e.preventDefault()
@@ -42,14 +44,14 @@ export function CreateZombie () {
       })(contract)
       // redirect para /army
       console.log(result)
-      window.location.href = '/'
+      navigate('/army')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unknown error')
     }
   }
 
   const handleClose = () => {
-    setError(null)
+    setError('')
   }
 
   return (
@@ -59,7 +61,7 @@ export function CreateZombie () {
           <Heading>Create Zombie</Heading>
         </Center>
 
-        {error && <ErrorMessage message={error} onClose={handleClose} />}
+        <ErrorMessage show={!!error} message={error} onClose={handleClose} />
 
         <form onSubmit={handleSubmit}>
           <Flex direction='column'>
