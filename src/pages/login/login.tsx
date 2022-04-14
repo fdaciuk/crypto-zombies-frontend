@@ -8,7 +8,7 @@ import {
   Input,
   theme,
 } from '@chakra-ui/react'
-import * as E from 'fp-ts/Either'
+import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 import { useAuth } from '@/resources'
 import { ErrorMessage } from '@/shared'
@@ -23,16 +23,17 @@ export function Login () {
   const { setAddress } = useAuth()
   const [error, setError] = useState('')
 
-  const handleSubmit = (e: OnSubmitEvent) => {
+  const handleSubmit = async (e: OnSubmitEvent) => {
     e.preventDefault()
-    pipe(
-      E.tryCatch(
+    await pipe(
+      TE.tryCatch(
         () => setAddress(e.currentTarget.login.value),
         (error) => {
+          console.log('login error:', error)
           setError(error instanceof Error ? error.message : 'Unknown error')
         },
       ),
-    )
+    )()
   }
 
   const handleClose = useCallback(() => {
@@ -78,13 +79,12 @@ const Form = ({ children, onSubmit }: FormProps) => {
 }
 
 const InputWallet = () => {
-  /* defaultValue='0x9f61faf7774A04Cb0339A6951F6c5c2D8bb0d595' */
   return (
     <Input
       type='text'
       name='login'
       id='login'
-      defaultValue='0x741441BEa66805e0123055977Dd6808ca55472dd'
+      defaultValue='0x14418c6eff626Cc821d28fc463753fAa512C56C5'
       mr='2'
       size='lg'
       width='lg'

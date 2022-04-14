@@ -1,7 +1,8 @@
 import Web3 from 'web3/dist/web3.min.js'
-import { TransactionReceipt } from 'web3-core'
+import { TransactionReceipt, PromiEvent } from 'web3-core'
 import { Contract, ContractSendMethod } from 'web3-eth-contract'
 import { cryptoZombiesABI } from './crypto-zombies-abi'
+import { ConnectionError } from '@/resources'
 
 type CreateRandomZombieInput = {
   name: string
@@ -37,7 +38,7 @@ export type ZombieWithId = Zombie & {
   id: string
 }
 
-const CRYPTO_ZOMBIES_ADDRESS = '0xD0E2e469da36eB6764A0829fE7994a8A7d15c570'
+const CRYPTO_ZOMBIES_ADDRESS = '0x03d4fF05201a92AF8bA9a37EfCE6579fCe569737'
 
 export const createWeb3Instance = (): Web3 => {
   const web3 = window.ethereum
@@ -66,33 +67,67 @@ export const zombieToOwner = (id: string) => (contract: CryptoZombiesContract) =
   return contract.methods.zombieToOwner(id).call()
 }
 
-export const getZombiesByOwner = (owner: string) => (contract: CryptoZombiesContract): Promise<string[]> => {
-  return contract.methods.getZombiesByOwner(owner).call()
+export const getZombiesByOwner = (owner: string) => async (contract: CryptoZombiesContract): Promise<string[]> => {
+  return new Promise((resolve, reject) => {
+    const call = 'call'
+    contract.methods.getZombiesByOwner(owner)[call]({}, (error, result) => {
+      if (
+        error instanceof Error &&
+        error.message.includes('Invalid JSON RPC response')
+      ) {
+        return reject(new ConnectionError())
+      }
+
+      if (error) {
+        return reject(error)
+      }
+
+      // TODO: Validar se `result` é, de fato, um array de strings.
+      // Se não for, criar uma nova classe de erro ValidationError e dar
+      // throw nesse erro.
+      return resolve(result)
+    })
+  })
 }
 
 export const isAddress = (address: string) => {
   return Web3.utils.isAddress(address)
 }
 
-export const createRandomZombie = (args: CreateRandomZombieInput) => (contract: CryptoZombiesContract): Promise<TransactionReceipt> => {
+type Fn = () => PromiEvent<Contract>
+const requestOrFail = (fn: Fn): Promise<TransactionReceipt> => {
   return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error('Connection error'))
+    }, 1_500)
+
+    fn()
+      .on('receipt', (result) => {
+        clearTimeout(timer)
+        resolve(result)
+      })
+      .on('error', error => {
+        clearTimeout(timer)
+        reject(error)
+      })
+  })
+}
+
+export const createRandomZombie = (args: CreateRandomZombieInput) => (contract: CryptoZombiesContract): Promise<TransactionReceipt> => {
+  return requestOrFail(() => {
     const { name, userAccount } = args
     return contract.methods.createRandomZombie(name)
       // TODO: dica do semaraugusto: ce pode rodar um estimeTransactionGas
       // antes de mandar o gas pra tentar economizar um pouco
       .send({ from: userAccount, gas: 3000000 })
-      .on('receipt', resolve)
-      .on('error', reject)
   })
 }
 
 export const feedOnKitty = (args: FeedOnKittyInput) => (contract: CryptoZombiesContract): Promise<TransactionReceipt> => {
-  return new Promise((resolve, reject) => {
+  return requestOrFail(() => {
     const { zombieId, kittyId, userAccount } = args
     return contract.methods.feedOnKitty(zombieId, kittyId)
       .send({ from: userAccount, gas: 3000000 })
-      .on('receipt', resolve)
-      .on('error', reject)
   })
 }
 

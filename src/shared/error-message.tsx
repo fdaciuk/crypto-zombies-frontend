@@ -10,15 +10,15 @@ type ErrorProps = {
 export const ErrorMessage = ({ message, show, onClose }: ErrorProps) => {
   const [shouldShow, setShouldShow] = useState(show)
 
-  useEffect(() => {
-    const FIVE_SECONDS = 5_000
-    const timer = setTimeout(() => {
-      setShouldShow(false)
-      onClose()
-    }, FIVE_SECONDS)
+  // useEffect(() => {
+  //   const FIVE_SECONDS = 5_000
+  //   const timer = setTimeout(() => {
+  //     setShouldShow(false)
+  //     onClose()
+  //   }, FIVE_SECONDS)
 
-    return () => clearTimeout(timer)
-  }, [shouldShow, onClose])
+  //   return () => clearTimeout(timer)
+  // }, [shouldShow, onClose])
 
   useEffect(() => {
     setShouldShow(show)

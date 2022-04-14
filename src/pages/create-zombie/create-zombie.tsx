@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Button,
@@ -23,6 +23,10 @@ export function CreateZombie () {
   const navigate = useNavigate()
   const [error, setError] = useState('')
 
+  useEffect(() => {
+
+  }, [])
+
   const handleSubmit = async (e: FormEventType) => {
     e.preventDefault()
 
@@ -42,10 +46,11 @@ export function CreateZombie () {
         name: zombieName,
         userAccount: address,
       })(contract)
-      // redirect para /army
-      console.log(result)
-      navigate('/army')
+      // ouvir o evento NewZombie e, quando esse evento for disparado,
+      // setar chamar novamente a função getZombiesByOwner
+      console.log('result:', result)
     } catch (e) {
+      console.log('catch!', e)
       setError(e instanceof Error ? e.message : 'Unknown error')
     }
   }

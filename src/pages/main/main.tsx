@@ -8,6 +8,7 @@ import {
   useAuth,
   getZombiesByOwner,
   useContract,
+  ConnectionError,
 } from '@/resources'
 
 const CreateZombie = lazy(() => import('@/pages/create-zombie'))
@@ -18,41 +19,21 @@ const Battle = lazy(() => import('@/pages/battle'))
 const Fight = lazy(() => import('@/pages/fight'))
 
 export function Main () {
-  const { address } = useAuth()
-  const contract = useContract()
+  const { zombies } = useAuth()
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function zombiesByOnwner () {
-      if (contract === null) {
+    function navigation () {
+      if (zombies.length > 0) {
+        navigate('/army')
         return
       }
 
-      const noZombies: string[] = []
-
-      // TODO: Antes de fazer a verificação, exibir um loading
-      const result = await pipe(
-        TE.tryCatch(
-          () => getZombiesByOwner(address)(contract),
-          E.toError,
-        ),
-        TE.fold(
-          () => async () => noZombies,
-          (result) => async () => result,
-        ),
-      )()
-
-      navigate(result.length > 0 ? '/army' : '/')
-      setLoading(false)
+      navigate('/')
     }
 
-    zombiesByOnwner()
-  }, [address, contract, navigate])
-
-  if (loading) {
-    return null
-  }
+    navigation()
+  }, [zombies, navigate])
 
   return (
     <>
