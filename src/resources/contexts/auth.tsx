@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   ReactNode,
+  useCallback,
   useState,
 } from 'react'
 
@@ -20,6 +21,7 @@ type AuthContextType = {
   address: string
   isLoggedIn: boolean
   zombies: ZombieWithId[]
+  getZombies: () => Promise<void>
   setAddress: (address: string) => Promise<void>
 }
 
@@ -42,7 +44,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const getZombiesByIds = async ({ ids, contract }: GetZombiesByIdsInput) => {
     const zombies = ids.map(async zombieId => {
-      const zombieDetail = await getZombieDetails(zombieId)(contract)
+      const zombieDetail = await pipe(contract, getZombieDetails(zombieId))
       return {
         id: zombieId,
         ...zombieDetail,
@@ -61,14 +63,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setZombies(newZombies)
   }
 
-  const getZombiesIds = async (address: string) => {
+  const getZombiesIds = useCallback(async (address: string) => {
     if (contract === null) {
       return
     }
 
     const ids = await pipe(contract, getZombiesByOwner(address))
     await getZombiesByIds({ ids, contract })
-  }
+  }, [contract])
 
   const setInternalAddress: AuthContextType['setAddress'] = async (address) => {
     if (!isAddress(address)) {
@@ -81,12 +83,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsLoggedIn(true)
   }
 
+  const getZombies = useCallback(() => {
+    return getZombiesIds(address)
+  }, [address, getZombiesIds])
+
   return (
     <AuthContext.Provider
       value={{
         address,
         isLoggedIn,
         zombies,
+        getZombies,
         setAddress: setInternalAddress,
       }}
     >

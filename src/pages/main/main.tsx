@@ -1,15 +1,7 @@
-import { lazy, useEffect, useState, Suspense } from 'react'
+import { lazy, useEffect, Suspense } from 'react'
 import { useNavigate, Routes, Route, Link } from 'react-router-dom'
-import * as TE from 'fp-ts/TaskEither'
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
 
-import {
-  useAuth,
-  getZombiesByOwner,
-  useContract,
-  ConnectionError,
-} from '@/resources'
+import { useAuth } from '@/resources'
 
 const CreateZombie = lazy(() => import('@/pages/create-zombie'))
 const Army = lazy(() => import('@/pages/army'))

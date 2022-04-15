@@ -1,5 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { FormEvent, useState } from 'react'
 import {
   Button,
   Center,
@@ -8,7 +7,12 @@ import {
   Heading,
   Input,
 } from '@chakra-ui/react'
-import { createRandomZombie, useAuth, useContract } from '@/resources'
+import { pipe } from 'fp-ts/function'
+import {
+  createRandomZombie,
+  useAuth,
+  useContract,
+} from '@/resources'
 import { ErrorMessage } from '@/shared'
 
 type FormEventType = FormEvent<HTMLFormElement> & {
@@ -18,14 +22,9 @@ type FormEventType = FormEvent<HTMLFormElement> & {
 }
 
 export function CreateZombie () {
-  const { address } = useAuth()
+  const { address, getZombies } = useAuth()
   const contract = useContract()
-  const navigate = useNavigate()
   const [error, setError] = useState('')
-
-  useEffect(() => {
-
-  }, [])
 
   const handleSubmit = async (e: FormEventType) => {
     e.preventDefault()
@@ -42,13 +41,15 @@ export function CreateZombie () {
     }
 
     try {
-      const result = await createRandomZombie({
-        name: zombieName,
-        userAccount: address,
-      })(contract)
-      // ouvir o evento NewZombie e, quando esse evento for disparado,
-      // setar chamar novamente a função getZombiesByOwner
-      console.log('result:', result)
+      await pipe(
+        contract,
+        createRandomZombie({
+          name: zombieName,
+          userAccount: address,
+        }),
+      )
+      await getZombies()
+      console.log('novo zumbi criado!')
     } catch (e) {
       console.log('catch!', e)
       setError(e instanceof Error ? e.message : 'Unknown error')
