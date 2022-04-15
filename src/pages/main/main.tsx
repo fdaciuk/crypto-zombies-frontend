@@ -15,16 +15,9 @@ export function Main () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    function navigation () {
-      if (zombies.length > 0) {
-        navigate('/army')
-        return
-      }
-
+    if (zombies.length === 0) {
       navigate('/')
     }
-
-    navigation()
   }, [zombies, navigate])
 
   return (

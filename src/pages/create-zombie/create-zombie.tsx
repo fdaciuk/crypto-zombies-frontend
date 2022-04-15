@@ -7,6 +7,7 @@ import {
   Heading,
   Input,
 } from '@chakra-ui/react'
+import { Navigate } from 'react-router-dom'
 import { pipe } from 'fp-ts/function'
 import {
   createRandomZombie,
@@ -22,7 +23,7 @@ type FormEventType = FormEvent<HTMLFormElement> & {
 }
 
 export function CreateZombie () {
-  const { address, getZombies } = useAuth()
+  const { address, zombies, getZombies } = useAuth()
   const contract = useContract()
   const [error, setError] = useState('')
 
@@ -58,6 +59,10 @@ export function CreateZombie () {
 
   const handleClose = () => {
     setError('')
+  }
+
+  if (zombies.length > 0) {
+    return <Navigate to='/army' />
   }
 
   return (
