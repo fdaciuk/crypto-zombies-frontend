@@ -1,3 +1,4 @@
+import { Button, Box } from '@chakra-ui/react'
 import { Zombie } from '@/ui'
 import { useAuth } from '@/resources'
 
@@ -10,7 +11,13 @@ export function Army () {
 
       <ul>
         {zombies.map(data => (
-          <Zombie key={data.id} data={data} />
+          <Box key={data.id}>
+            <Zombie data={data} />
+
+            <Button>Comer</Button>
+            <Button>Lutar</Button>
+            <Button>Detalhes</Button>
+          </Box>
         ))}
       </ul>
     </>
