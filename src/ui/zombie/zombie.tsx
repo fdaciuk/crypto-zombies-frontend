@@ -25,10 +25,7 @@ export const Zombie = ({ data }: ZombieProps) => {
   }
 
   return (
-    <>
-      <h2>Zombie details ({data.name})</h2>
-      <h3>Zombie DNA: {data.dna}</h3>
-
+    <S.ExternalContainer>
       <S.ZombieContainer>
         {!catMode && (
           <>
@@ -61,6 +58,6 @@ export const Zombie = ({ data }: ZombieProps) => {
         <S.Eyes data-img={eye} data-color={eyeColor} />
         <S.Mouth />
       </S.ZombieContainer>
-    </>
+    </S.ExternalContainer>
   )
 }

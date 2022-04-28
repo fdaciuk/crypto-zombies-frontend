@@ -3,8 +3,17 @@ import styled from 'styled-components'
 type ImgProps = { 'data-img': number }
 type ColorProps = { 'data-color': number }
 
+export const ExternalContainer = styled.div`
+  overflow: hidden;
+  height: 32.3vh;
+  width: 28vh;
+`
+
 export const ZombieContainer = styled.div`
+  height: 32.3vh;
+  left: -130px;
   position: relative;
+  width: 41vh;
 `
 
 const MainImg = styled.img`
