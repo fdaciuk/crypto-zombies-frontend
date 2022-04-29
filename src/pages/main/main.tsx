@@ -27,9 +27,9 @@ export function Main () {
         <li><Link to='/'>Create Zombie</Link></li>
         <li><Link to='/army'>My Army</Link></li>
         <li><Link to='/army/123'>Zombie 123 details</Link></li>
-        <li><Link to='/eat'>Feed Zombie</Link></li>
-        <li><Link to='/battle'>Choose your opponent</Link></li>
-        <li><Link to='/battle/234'>Fight with Zombie 234</Link></li>
+        <li><Link to='/eat/123'>Feed Zombie</Link></li>
+        <li><Link to='/battle/123'>Choose your opponent</Link></li>
+        <li><Link to='/battle/123/opponent/0xlala'>Fight with Zombie 234</Link></li>
       </ul>
 
       <Box position='absolute' right='4' top='4' textAlign='right'>
@@ -42,9 +42,9 @@ export function Main () {
           <Route path='/' element={<CreateZombie />} />
           <Route path='/army' element={<Army />} />
           <Route path='/army/:id' element={<ZombieDetails />} />
-          <Route path='/eat' element={<Eat />} />
-          <Route path='/battle' element={<Battle />} />
-          <Route path='/battle/:id' element={<Fight />} />
+          <Route path='/eat/:id' element={<Eat />} />
+          <Route path='/battle/:id' element={<Battle />} />
+          <Route path='/battle/:id/opponent/:oponnentAddress' element={<Fight />} />
         </Routes>
       </Suspense>
     </>
