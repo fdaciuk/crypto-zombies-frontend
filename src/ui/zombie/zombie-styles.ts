@@ -3,17 +3,19 @@ import styled from 'styled-components'
 type ImgProps = { 'data-img': number }
 type ColorProps = { 'data-color': number }
 
+const containerHeight = 338
 export const ExternalContainer = styled.div`
   overflow: hidden;
-  height: 32.3vh;
-  width: 28vh;
+  height: ${containerHeight}px;
+  width: 280px;
 `
 
 export const ZombieContainer = styled.div`
-  height: 32.3vh;
+  height: ${containerHeight}px;
   left: -130px;
   position: relative;
-  width: 41vh;
+  top: 15px;
+  width: 410px;
 `
 
 const MainImg = styled.img`
@@ -26,10 +28,10 @@ export const Head = styled(MainImg).attrs<ImgProps>(props => ({
   alt: 'Cabeça do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 28vh;
+  width: 280px;
   position: absolute;
-  left: 13vh;
-  top: -4vh;
+  left: 129px;
+  top: -40px;
 `
 
 export const Eyes = styled(MainImg).attrs<ImgProps>(props => ({
@@ -37,10 +39,10 @@ export const Eyes = styled(MainImg).attrs<ImgProps>(props => ({
   alt: 'Olho do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 13vh;
+  width: 129px;
   position: absolute;
-  left: 23vh;
-  top: 8vh;
+  left: 229px;
+  top: 80px;
 `
 
 export const Shirt = styled(MainImg).attrs<ImgProps>(props => ({
@@ -48,20 +50,20 @@ export const Shirt = styled(MainImg).attrs<ImgProps>(props => ({
   alt: 'Camiseta do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 13vh;
+  width: 130px;
   position: absolute;
-  left: 15.6vh;
-  top: 13vh;
+  left: 155px;
+  top: 129px;
 `
 
 export const Mouth = styled(MainImg).attrs(() => ({
   src: '/zombieparts/mouth-1@2x.png',
   alt: 'Boca do zumbi',
 }))`
-  width: 6vh;
+  width: 60px;
   position: absolute;
-  left: 26.6vh;
-  top: 15vh;
+  left: 265px;
+  top: 149px;
 `
 
 export const Torso = styled(MainImg).attrs(() => ({
@@ -69,10 +71,10 @@ export const Torso = styled(MainImg).attrs(() => ({
   alt: 'Torso do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 13vh;
+  width: 130px;
   position: absolute;
-  left: 15.6vh;
-  top: 13vh;
+  left: 156px;
+  top: 129px;
 `
 
 export const LeftThigh = styled(MainImg).attrs(() => ({
@@ -80,20 +82,20 @@ export const LeftThigh = styled(MainImg).attrs(() => ({
   alt: 'Coxa esquerda do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 6vh;
+  width: 60px;
   position: absolute;
-  left: 17.3vh;
-  top: 22vh;
+  left: 172px;
+  top: 219px;
 `
 export const RightThigh = styled(MainImg).attrs(() => ({
   src: '/zombieparts/right-thigh-1@2x.png',
   alt: 'Coxa direita do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 6vh;
+  width: 59px;
   position: absolute;
-  left: 20.4vh;
-  top: 22vh;
+  left: 203px;
+  top: 219px;
 `
 
 export const CatLegs = styled(MainImg).attrs(() => ({
@@ -101,10 +103,10 @@ export const CatLegs = styled(MainImg).attrs(() => ({
   alt: 'Pernas de gato do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 10vh;
+  width: 100px;
   position: absolute;
-  left: 15.4vh;
-  top: 18vh;
+  left: 153px;
+  top: 179px;
 `
 
 export const LeftHand = styled(MainImg).attrs(() => ({
@@ -112,10 +114,10 @@ export const LeftHand = styled(MainImg).attrs(() => ({
   alt: 'Mão esquerda do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 4vh;
+  width: 40px;
   position: absolute;
-  left: 24.3vh;
-  top: 19vh;
+  left: 242px;
+  top: 189px;
 `
 
 export const RightHand = styled(MainImg).attrs(() => ({
@@ -123,10 +125,10 @@ export const RightHand = styled(MainImg).attrs(() => ({
   alt: 'Mão direita do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 4vh;
+  width: 40px;
   position: absolute;
-  left: 28.4vh;
-  top: 19vh;
+  left: 283px;
+  top: 189px;
 `
 
 export const LeftForearm = styled(MainImg).attrs(() => ({
@@ -134,20 +136,20 @@ export const LeftForearm = styled(MainImg).attrs(() => ({
   alt: 'Antebraço esquerdo do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 4vh;
+  width: 40px;
   position: absolute;
-  left: 22.3vh;
-  top: 20vh;
+  left: 222px;
+  top: 199px;
 `
 export const RightForearm = styled(MainImg).attrs(() => ({
   src: '/zombieparts/right-forearm-1@2x.png',
   alt: 'Antebraço direito do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 4vh;
+  width: 40px;
   position: absolute;
-  left: 26.4vh;
-  top: 20vh;
+  left: 263px;
+  top: 199px;
 `
 
 export const LeftUpperArm = styled(MainImg).attrs(() => ({
@@ -155,10 +157,10 @@ export const LeftUpperArm = styled(MainImg).attrs(() => ({
   alt: 'Ombro esquerdo do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 6vh;
+  width: 60px;
   position: absolute;
-  left: 19.3vh;
-  top: 16vh;
+  left: 192px;
+  top: 159px;
 `
 
 export const RightUpperArm = styled(MainImg).attrs(() => ({
@@ -166,10 +168,10 @@ export const RightUpperArm = styled(MainImg).attrs(() => ({
   alt: 'Ombro direito do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 6vh;
+  width: 60px;
   position: absolute;
-  left: 23.4vh;
-  top: 16vh;
+  left: 233px;
+  top: 159px;
 `
 
 export const LeftLeg = styled(MainImg).attrs(() => ({
@@ -177,10 +179,10 @@ export const LeftLeg = styled(MainImg).attrs(() => ({
   alt: 'Perna esquerda do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 4vh;
+  width: 39px;
   position: absolute;
-  left: 18.3vh;
-  top: 27vh;
+  left: 182px;
+  top: 269px;
 `
 
 export const RightLeg = styled(MainImg).attrs(() => ({
@@ -188,10 +190,10 @@ export const RightLeg = styled(MainImg).attrs(() => ({
   alt: 'Perna direita do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 3.3vh;
+  width: 33px;
   position: absolute;
-  left: 22.3vh;
-  top: 27.6vh;
+  left: 222px;
+  top: 275px;
 `
 
 export const LeftFeet = styled(MainImg).attrs(() => ({
@@ -199,10 +201,10 @@ export const LeftFeet = styled(MainImg).attrs(() => ({
   alt: 'Pé esquerdo do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 4vh;
+  width: 40px;
   position: absolute;
-  left: 18.3vh;
-  top: 30vh;
+  left: 182px;
+  top: 299px;
 `
 
 export const RightFeet = styled(MainImg).attrs(() => ({
@@ -210,8 +212,8 @@ export const RightFeet = styled(MainImg).attrs(() => ({
   alt: 'Pé direito do zumbi',
 }))<ColorProps>`
   filter: hue-rotate(${props => props['data-color']}deg);
-  width: 3.3vh;
+  width: 33px;
   position: absolute;
-  left: 22.3vh;
-  top: 30.3vh;
+  left: 222px;
+  top: 302px;
 `
