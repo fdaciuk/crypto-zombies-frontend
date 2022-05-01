@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 type ImgProps = { 'data-img': number }
 type ColorProps = { 'data-color': number }
