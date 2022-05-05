@@ -2,7 +2,7 @@ import Web3 from 'web3/dist/web3.min.js'
 import { TransactionReceipt, PromiEvent } from 'web3-core'
 import { Contract, ContractSendMethod } from 'web3-eth-contract'
 import { cryptoZombiesABI } from './crypto-zombies-abi'
-import { ConnectionError } from '@/resources'
+import { ConnectionError, getEnv } from '@/resources'
 
 type CreateRandomZombieInput = {
   name: string
@@ -38,8 +38,6 @@ export type ZombieWithId = Zombie & {
   id: string
 }
 
-const CRYPTO_ZOMBIES_ADDRESS = '0x03d4fF05201a92AF8bA9a37EfCE6579fCe569737'
-
 export const createWeb3Instance = (): Web3 => {
   const web3 = window.ethereum
 
@@ -54,7 +52,7 @@ export const createWeb3Instance = (): Web3 => {
 export const createContract = (web3Instance: Web3): CryptoZombiesContract => {
   const myContract = new web3Instance.eth.Contract(
     JSON.parse(cryptoZombiesABI),
-    CRYPTO_ZOMBIES_ADDRESS,
+    getEnv('CRYPTO_ZOMBIES_ADDRESS'),
   )
   return myContract
 }
