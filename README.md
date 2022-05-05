@@ -22,6 +22,8 @@ Clone this project:
 git clone git@github.com:fdaciuk/crypto-zombies-frontend.git
 ```
 
+Make a copy of `.env.local.example` to `.env.local` and fill up the environment variables.
+
 Install the dependencies:
 
 ```sh
